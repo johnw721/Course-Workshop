@@ -20,10 +20,15 @@
             <label for="courseName">Course Name</label>
             <input type="text" id="courseName" name="courseName">
             <label for="courseNumber">Course Number</label>
-            <input type="text" id="courseNumber" name="courseNumber">
-            <label for="courseCredits">Course Credits</label>
-            <input type="text" id="courseCredits" name="courseCredits">
+            <input type="number" id="courseNumber" name="courseNumber">
+            <label for="courseStart">Start date</label>
+            <input type="date" id="courseStart name="courseStart">
             <label for="courseDepartment">Course Department</label>
+            <input type="text" id="courseDepartment" name="courseDepartment">
+            <label for="courseTeacher"> Instructor name</label>
+            <input type="text" id="courseTeacher" name="courseTeacher">
+            <label for="courseLength">Course Length</label>
+            <input type="number" id="courseLength" name="courseLength">
             <button id="submitCourse">Submit</button>
         </form>
     </div>
@@ -34,13 +39,18 @@
         event.preventDefault();
         var courseName = document.getElementById("courseName").value;
         var courseNumber = document.getElementById("courseNumber").value;
-        var courseCredits = document.getElementById("courseCredits").value;
+        var courseStart = document.getElementById("courseDate").value;
         var courseDepartment = document.getElementById("courseDepartment").value;
+        var courseTeacher = document.getElementById("courseTeacher").value;
+        var courseLength = document.getElementById("courseLength").value;
+
         var course = {
-            "name": courseName,
-            "number": courseNumber,
-            "credits": courseCredits,
-            "dept": courseDepartment
+            "dept": courseDepartment,
+            "courseNum": courseNumber,
+            "courseName": courseName,
+            "startDate": courseStart,
+            "instructor": courseTeacher,
+            "numDays": courseLength
         }
         fetch("http://localhost:8088/api/courses",{
             method: "POST",

@@ -41,7 +41,7 @@ fetch("http://localhost:8088/api/courses",{
     Department.forEach(element => {
         var department = document.createElement("div");
         department.innerHTML = `
-        <h1>${element}</h1>
+        <h3>${element}</h3>
         <button id="seeCourses">
             <a href="./courses.html">
                 See Courses

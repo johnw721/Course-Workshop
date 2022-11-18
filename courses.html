@@ -48,6 +48,7 @@ fetch("http://localhost:8088/api/courses",{
     data = JSON.parse(data);
     data.forEach(element => {
         var course = document.createElement("li");
+        //Create table Mr.McKeachie way
         course.innerHTML = `
         <h1>${element.courseName}</h1>
         <p>${element.courseDescription}</p>
@@ -63,7 +64,7 @@ fetch("http://localhost:8088/api/courses",{
         document.querySelector(".listofCourses").appendChild(course);
         //Adds a course to enrolled list through localStorage
         document.getElementById("enrollBtn").onclick(
-            window.localStorage.setItem(`${element.courseId}`,`${element.courseName}`)
+            window.localStorage.setItem(`${element.id}`,`${element.courseName}`)
         )
         //Deletes a course
         document.getElementById("deleteBtn").onclick(
@@ -76,6 +77,6 @@ fetch("http://localhost:8088/api/courses",{
         )
     });
 })
-
+//change URL dynamically
 </script>
 </html>

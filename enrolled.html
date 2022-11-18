@@ -17,8 +17,18 @@
     </nav>
     <section id="listOfEnrolled">
         <h1>Enrolled Courses</h1>
-        <div id="enrolledCourses">
-        </div>
+        <table id="enrolledCourses">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Course Instructor</th>
+                    <th>Course ID</th>
+                    <th>Unenroll</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </section>
 </body>
 <script>
@@ -28,5 +38,23 @@ var enrolledCourses = [];
  for(var i =0;i<localStorage.length;i++){
 enrolledCourses[i] = localStorage.getItem(localStorage.key(i))
  }
+ //Display enrolledCourses array into Mr.Mckeachie table
+ const enrolledTable = document.getElementById("enrolledCourses");
+ for (course of enrolledCourses){
+    buildTable(enrolledTable, course);
+ }
+    //Build table function
+    function buildTable(table, course){
+        let row = enrolledTable.insert(-1);
+
+        let courseName = row.insertCell(0);
+        courseName.innerHTML = course.courseName;
+
+        let courseInstructor = row.insertCell(1);
+        courseInstructor.innerHTML = course.instructor;
+
+        let courseID = row.insertCell(2);
+        courseID.innerHTML = course.id;
+    }
 </script>
 </html>
