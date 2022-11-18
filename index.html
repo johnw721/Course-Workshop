@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://classless.de/classless.css">
+    <title>Welcome</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="./courses.html">Open Courses</a></li>
+            <li><a href="./enrolled.html">Enrolled In</a></li>
+        </ul>
+    </nav>
+    <section id="listOfDepartments">
+
+    </section>
+</body>
+<script>
+// Fetchs all departments from api
+fetch("http://localhost:8088/api/courses",{
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+.then(response => response.json())
+.then(data =>{
+    data = JSON.parse();
+    // Returns an array of every department type in the API
+    data.forEach(element => {
+        var Departments = [];
+        Departments.push(element.dept);
+        return Department = Departments.filter(
+            (item, index) => Departments.indexOf(item) === index
+        );
+    //Creating inner HTML for the Department
+    Department.forEach(element => {
+        var department = document.createElement("div");
+        department.innerHTML = `
+        <h1>${element}</h1>
+        <button id="seeCourses">
+            <a href="./courses.html">
+                See Courses
+            </a>
+        </button>
+        `;
+        document.getElementById("listOfDepartments").appendChild(department);
+    });
+    });
+
+})
+</script>
+</html>

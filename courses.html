@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://classless.de/classless.css">
+    <title>Open Courses</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="courses.html">Open Courses</a></li>
+            <li><a href="./enrolled.html">Enrolled In</a></li>
+        </ul>
+    </nav>
+    <section>
+        <!--Open Course Page Banner-->
+        <div class="openCourseBanner">
+            <h1>Open Courses</h1>
+            <p>Click on the course to enroll</p>
+        </div>
+        <ul class="listofCourses">
+
+        </ul>
+
+        <button id="addCourseBtn"> 
+           <a href="./newCourse.html">
+                Add Course
+           </a>
+        </button>
+    </section>
+</body>
+<script>
+// Fetchs all courses from api
+fetch("http://localhost:8088/api/courses",{
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+.then(response => response.json())
+
+// Paginates the courses
+// Displays list of courses
+.then(data =>{
+    data = JSON.parse(data);
+    data.forEach(element => {
+        var course = document.createElement("li");
+        course.innerHTML = `
+        <h1>${element.courseName}</h1>
+        <p>${element.courseDescription}</p>
+        <div>
+        <button id="enrollBtn">
+                Enroll
+        </button>
+        <button id="deleteBtn">
+                Delete
+        </button>
+        </div>
+        `;
+        document.querySelector(".listofCourses").appendChild(course);
+        //Adds a course to enrolled list through localStorage
+        document.getElementById("enrollBtn").onclick(
+            window.localStorage.setItem(`${element.courseId}`,`${element.courseName}`)
+        )
+        //Deletes a course
+        document.getElementById("deleteBtn").onclick(
+            fetch(`http://localhost:8088/api/courses/${element.courseId}`,{
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        )
+    });
+})
+
+</script>
+</html>

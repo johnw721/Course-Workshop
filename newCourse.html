@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://classless.de/classless.css">
+    <title>New Course Form</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./courses.html">Open Courses</a></li>
+            <li><a href="./enrolled.html">Enrolled In</a></li>
+        </ul>
+    </nav>
+    <div>
+        <form>
+            <label for="courseName">Course Name</label>
+            <input type="text" id="courseName" name="courseName">
+            <label for="courseNumber">Course Number</label>
+            <input type="text" id="courseNumber" name="courseNumber">
+            <label for="courseCredits">Course Credits</label>
+            <input type="text" id="courseCredits" name="courseCredits">
+            <label for="courseDepartment">Course Department</label>
+            <button id="submitCourse">Submit</button>
+        </form>
+    </div>
+</body>
+<script>
+    //POST form values to Api 
+    document.getElementById("submitCourse").addEventListener("click", function(event){
+        event.preventDefault();
+        var courseName = document.getElementById("courseName").value;
+        var courseNumber = document.getElementById("courseNumber").value;
+        var courseCredits = document.getElementById("courseCredits").value;
+        var courseDepartment = document.getElementById("courseDepartment").value;
+        var course = {
+            "name": courseName,
+            "number": courseNumber,
+            "credits": courseCredits,
+            "dept": courseDepartment
+        }
+        fetch("http://localhost:8088/api/courses",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(course)
+        })
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data);
+        })
+    })
+</script>
+</html>
