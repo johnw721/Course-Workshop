@@ -43,15 +43,42 @@
            </a>
         </button>
     </section>
+    <div class="modal">
+        <div class="modal-content">
+            <h1>Are you sure you would like to delete?</h1>
+            <p>This action can't be undone</p>
+            <button id="close">Close</button>
+            <button id="confirm">Delete</button>
+        </div>
+    </div>
 </body>
 <script>
 var enrolledTableBody = document.getElementById("course-table");
 // Fetchs all courses from api
-fetch("http://localhost:8888/courses",{
+fetch("http://localhost:8888/courses",(res,req)=>{
+const page = req.query.page
+const limit = req.query.limit
+
+const startIndex = (page - 1) * limit
+const endIndex = page * limit
+
+const results = {}
+
+if (endIndex < courses.length) {
+    results.next = {
+        page: page + 1,
+        limit: limit
+     }
+    }
+if (startIndex > 0) {
+     results.previous = {
+        page: page - 1,
+        limit: limit
+    }
+}
 })
 .then(response => response.json())
 
-// Paginates the courses
 // Displays list of courses
 .then(data =>{
    //data = JSON.parse(data);
@@ -79,8 +106,8 @@ fetch("http://localhost:8888/courses",{
         numberOfDays.innerHTML = course.numDays;
         actions.innerHTML = `
         <button id="enrollBtn">Enroll</button>
-        <button id="deleteBtn">Delete</button>
-        <button id="editBtn">Edit</button>
+        <button id="deleteBtn" data-id="${course.id}"">Delete</button>
+        <button id="editBtn"data-id="${course.id}">Edit</button>
         `;
     }
    }
@@ -103,17 +130,46 @@ fetch("http://localhost:8888/courses",{
         document.getElementById("enrollBtn").onclick(
             window.localStorage.setItem(`${element.id}`,`${element.courseName}`)
         )
-        //Deletes a course
-        document.getElementById("deleteBtn").onclick(
-            fetch("http://localhost:8088/api/courses/" + id,{
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        )
     });*/
 })
+//Deletes a course
+document.getElementById("confirm").onclick(
+    fetch("http://localhost:8088/api/courses/" + id,{
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+)
+//Edits a course
+document.getElementById("editBtn").onclick(
+    fetch("http://localhost:8088/api/courses/" + id,{
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            courseName: courseName,
+            courseNum: courseNum,
+            dept: dept,
+            instructor: instructor,
+            startDate: startDate,
+            numDays: numDays
+        })
+    })
+)
+//Modal shows up for Delete Button
+document.getElementById("deleteBtn").onclick(
+    document.querySelector(".modal").style.display = "block"
+)
+document.getElementById("close").onclick(
+    document.querySelector(".modal").style.display = "none"
+)
+window.onclick = function(event) {
+    if (event.target == document.querySelector(".modal")) {
+        document.querySelector(".modal").style.display = "none";
+    }
+}
 //change URL dynamically
 
 </script>
