@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" 
+    integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://classless.de/classless.css">
+    <link rel="stylesheet" href="./style.css">
     <title>New Course Form</title>
 </head>
 <body>
@@ -22,7 +26,7 @@
             <label for="courseNumber">Course Number</label>
             <input type="number" id="courseNumber" name="courseNumber">
             <label for="courseStart">Start date</label>
-            <input type="date" id="courseStart name="courseStart">
+            <input type="date" id="courseStart" name="courseStart">
             <label for="courseDepartment">Course Department</label>
             <input type="text" id="courseDepartment" name="courseDepartment">
             <label for="courseTeacher"> Instructor name</label>
@@ -32,6 +36,14 @@
             <button id="submitCourse">Submit</button>
         </form>
     </div>
+    <!--<div id="modal">
+        <div id="modalContent">
+            <h1>Course Added</h1>
+            <p>Course has been added to the database</p>
+            <button id="close">Close</button>
+        </div>
+    </div>
+-->
 </body>
 <script>
     //POST form values to Api 
@@ -39,20 +51,21 @@
         event.preventDefault();
         var courseName = document.getElementById("courseName").value;
         var courseNumber = document.getElementById("courseNumber").value;
-        var courseStart = document.getElementById("courseDate").value;
-        var courseDepartment = document.getElementById("courseDepartment").value;
+        var courseStart = document.getElementById("courseStart").value;
+        var courseDepart = document.getElementById("courseDepartment").value;
         var courseTeacher = document.getElementById("courseTeacher").value;
         var courseLength = document.getElementById("courseLength").value;
+Date.format
+     var course = {
+            courseName: courseName,
+            courseNum: courseNumber,
+            startDate: moment(courseStart).format('Do-MMM'),
+            dept: courseDepart,
+            instructor: courseTeacher,
+            numDays: courseLength
+     }
 
-        var course = {
-            "dept": courseDepartment,
-            "courseNum": courseNumber,
-            "courseName": courseName,
-            "startDate": courseStart,
-            "instructor": courseTeacher,
-            "numDays": courseLength
-        }
-        fetch("http://localhost:8088/api/courses",{
+        fetch("http://localhost:8888/courses",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -61,7 +74,9 @@
         })
         .then(response => response.json())
         .then(data =>{
-            console.log(data);
+            /*let confirmationMessage = document.getElementById("modalContent");
+            confirmationMessage.innerText = "New course added";*/
+            window.location = "./courses.html";
         })
     })
 </script>

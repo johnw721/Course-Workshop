@@ -21,9 +21,21 @@
             <h1>Open Courses</h1>
             <p>Click on the course to enroll</p>
         </div>
-        <ul class="listofCourses">
+        <table id="course-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Course Number</th>
+                    <th>Department</th>
+                    <th>Instructor</th>
+                    <th>Start Date</th>
+                    <th>Number of Days</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-        </ul>
 
         <button id="addCourseBtn"> 
            <a href="./newCourse.html">
@@ -33,25 +45,50 @@
     </section>
 </body>
 <script>
+var enrolledTableBody = document.getElementById("course-table");
 // Fetchs all courses from api
-fetch("http://localhost:8088/api/courses",{
-    method: "GET",
-    headers: {
-        "Content-Type": "application/json"
-    }
+fetch("http://localhost:8888/courses",{
 })
 .then(response => response.json())
 
 // Paginates the courses
 // Displays list of courses
 .then(data =>{
-    data = JSON.parse(data);
-    data.forEach(element => {
+   //data = JSON.parse(data);
+    var courses = data;
+   for(course of courses){
+    buildTable(enrolledTableBody, course)
+
+    function buildTable(enrolledTableBody,course){
+        var table = document.getElementById("course-table");
+        var tableBody = document.getElementById("course-table").getElementsByTagName("tbody")[0];
+        var row = table.insertRow(1);
+        var title = row.insertCell(0);
+        var courseNumber = row.insertCell(1);
+        var department = row.insertCell(2);
+        var instructor = row.insertCell(3);
+        var startDate = row.insertCell(4);
+        var numberOfDays = row.insertCell(5);
+        var actions = row.insertCell(6);
+        //inner HTML
+        title.innerHTML = course.courseName;
+        courseNumber.innerHTML = course.courseNum;
+        department.innerHTML = course.dept;
+        instructor.innerHTML = course.instructor;
+        startDate.innerHTML = course.startDate;
+        numberOfDays.innerHTML = course.numDays;
+        actions.innerHTML = `
+        <button id="enrollBtn">Enroll</button>
+        <button id="deleteBtn">Delete</button>
+        <button id="editBtn">Edit</button>
+        `;
+    }
+   }
+    /*data.forEach(element => {
         var course = document.createElement("li");
         //Create table Mr.McKeachie way
         course.innerHTML = `
         <h1>${element.courseName}</h1>
-        <p>${element.courseDescription}</p>
         <div>
         <button id="enrollBtn">
                 Enroll
@@ -68,15 +105,16 @@ fetch("http://localhost:8088/api/courses",{
         )
         //Deletes a course
         document.getElementById("deleteBtn").onclick(
-            fetch(`http://localhost:8088/api/courses/${element.courseId}`,{
+            fetch("http://localhost:8088/api/courses/" + id,{
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
         )
-    });
+    });*/
 })
 //change URL dynamically
+
 </script>
 </html>

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://classless.de/classless.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Welcome</title>
 </head>
 <body>
@@ -21,22 +22,20 @@
 </body>
 <script>
 // Fetchs all departments from api
-fetch("http://localhost:8088/api/courses",{
-    method: "GET",
-    headers: {
-        "Content-Type": "application/json"
-    }
-})
+fetch("http://localhost:8888/courses",{})
 .then(response => response.json())
 .then(data =>{
-    data = JSON.parse();
+    //data = JSON.parse();
     // Returns an array of every department type in the API
+    console.log(data)
+    var Departments = [];
     data.forEach(element => {
-        var Departments = [];
         Departments.push(element.dept);
-        return Department = Departments.filter(
+    });
+        let Department = Departments.filter(
             (item, index) => Departments.indexOf(item) === index
-        );
+            );
+    console.log(Department)
     //Creating inner HTML for the Department
     Department.forEach(element => {
         var department = document.createElement("div");
@@ -50,7 +49,7 @@ fetch("http://localhost:8088/api/courses",{
         `;
         document.getElementById("listOfDepartments").appendChild(department);
     });
-    });
+    ;
 
 })
 </script>

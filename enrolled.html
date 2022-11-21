@@ -39,13 +39,15 @@ var enrolledCourses = [];
 enrolledCourses[i] = localStorage.getItem(localStorage.key(i))
  }
  //Display enrolledCourses array into Mr.Mckeachie table
- const enrolledTable = document.getElementById("enrolledCourses");
+ //const enrolledTable = document.getElementById("enrolledCourses");
+ const courseTableBody = document.querySelector("#course-table tbody");
+
  for (course of enrolledCourses){
-    buildTable(enrolledTable, course);
+    buildTable(courseTableBody, course);
  }
     //Build table function
-    function buildTable(table, course){
-        let row = enrolledTable.insert(-1);
+    function buildTable(courseTableBody, course){
+        let row = courseTableBody.insert(-1);
 
         let courseName = row.insertCell(0);
         courseName.innerHTML = course.courseName;
