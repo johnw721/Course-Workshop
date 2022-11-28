@@ -1,3 +1,64 @@
+.prevNnextButtons{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 1em 0;
+    border: 1px solid #888
+}
+.prevBtn{
+    background-color: #888;
+    color: #fff;
+    padding: 0.5em;
+    text-decoration: none;
+    border-radius: 0.5em 0 0 0.5em;
+}
+.nextBtn{
+    background-color: #888;
+    color: #fff;
+    padding: 0.5em;
+    text-decoration: none;
+    border-radius: 0 0.5em 0.5em 0;
+}
+
+
+/* Page Not Found Css */
+.nfp-sec{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+.nfp-sec h1{
+    font-size: 5em;
+    color: rgb(97, 170, 230);
+    font-weight: 400;
+}
+.nfp-sec p{
+    font-size: 1.5em;
+    color: #888;
+    font-weight: 400;
+}
+.nfp-sec button{
+    background-color: rgb(97, 170, 230);
+    color: #fff;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.5em;
+    font-size: 1em;
+    font-weight: 400;
+    margin-top: 1em;
+    cursor: pointer;
+}
+.nfp-sec button:hover{
+    background-color: #888;
+}
+.nfp-sec button a {
+    text-decoration: none;
+    color: #fff;
+}
+.nfp-sec button a:hover{
+    color: #fff;
+}
 /* The Modal (background) */
 .modal {
     display: none;
@@ -45,4 +106,15 @@
   }
   #listOfDepartments div h3 {
     text-align: center;
+  }
+
+  .department {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f1f1f1;
   }

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://classless.de/classless.css">
+    <link rel="stylesheet" href="./style.css">
     <title>Open Courses</title>
 </head>
 <body>
@@ -20,6 +21,14 @@
         <div class="openCourseBanner">
             <h1>Open Courses</h1>
             <p>Click on the course to enroll</p>
+        </div>
+        <div class="prevNnextButtons">
+            <button type="button" class="prevBtn">
+                Prev
+            </button>
+            <button type="button" class="nextBtn">
+                Next
+            </button>
         </div>
         <table id="course-table">
             <thead>
@@ -109,8 +118,62 @@ if (startIndex > 0) {
         <button id="deleteBtn" data-id="${course.id}"">Delete</button>
         <button id="editBtn"data-id="${course.id}">Edit</button>
         `;
+        //Centers Action Header in column
+        actions.style.textAlign = "center";
     }
    }
+   //Enroll Button adds item to localStorage
+    var enrollBtn = document.getElementById("enrollBtn");
+    enrollBtn.addEventListener("click", function(){
+        var enrolledCourses = JSON.parse(localStorage.getItem("enrolledCourses"));
+        if(enrolledCourses == null){
+            enrolledCourses = [];
+        }
+        enrolledCourses.push(course);
+        localStorage.setItem("enrolledCourses", JSON.stringify(enrolledCourses));
+    })
+    //previous Button functionality
+    var prevBtn = document.getElementsByClassName("prevBtn");
+    prevBtn.addEventListener("click", function(){
+        var page = req.query.page
+        var limit = req.query.limit
+        var startIndex = (page - 1) * limit
+        var endIndex = page * limit
+        var results = {}
+        if (endIndex < courses.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            }
+        }
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            }
+        }
+    })
+    //next Button functionality
+    var nextBtn = document.getElementsByClassName("nextBtn");
+    nextBtn.addEventListener("click", function(){
+        var page = req.query.page
+        var limit = req.query.limit
+        var startIndex = (page - 1) * limit
+        var endIndex = page * limit
+        var results = {}
+        if (endIndex < courses.length) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            }
+        }
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            }
+        }
+    })
     /*data.forEach(element => {
         var course = document.createElement("li");
         //Create table Mr.McKeachie way
@@ -140,24 +203,13 @@ document.getElementById("confirm").onclick(
             "Content-Type": "application/json"
         }
     })
-)
-//Edits a course
-document.getElementById("editBtn").onclick(
-    fetch("http://localhost:8088/api/courses/" + id,{
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            courseName: courseName,
-            courseNum: courseNum,
-            dept: dept,
-            instructor: instructor,
-            startDate: startDate,
-            numDays: numDays
+    .catch(function
+        (error){
+            //Redirect to PageNotFound
+            window.location.href = "./PageNotFound.html";
         })
-    })
 )
+
 //Modal shows up for Delete Button
 document.getElementById("deleteBtn").onclick(
     document.querySelector(".modal").style.display = "block"
@@ -170,7 +222,71 @@ window.onclick = function(event) {
         document.querySelector(".modal").style.display = "none";
     }
 }
-//change URL dynamically
+document.getElementById("editBtn").onclick( ()=>{
 
+    //open to edit page //
+    //window.location.href = "./editCourse.html"
+    //pass id to edit page
+    //new URLSearchParams(window.location.search).set("id", id)
+ let id = document.getElementById("editBtn").getAttribute("data-id");
+    //only edit selected row
+
+    //Make table editable
+    let table = document.getElementById("course-table");
+    let cells = table.getElementsByTagName("td");
+
+    for (let i = 0; i < cells.length; i++) {
+        let cell = cells[i];
+        cell.onclick = function(){
+            if(this.hasAttribute('data-clicked')){
+                return;
+            }
+            //cell.contentEditable = true;
+            this.setAttribute('data-clicked','yes')
+            this.setAttribute('contenteditable','true')
+            this.setAttribute('data-text', this.innerHTML);
+            let input = document.createElement("input");
+            input.type = "text";
+            input.value = cell.innerHTML;
+            cell.innerHTML = "";
+            cell.appendChild(input);
+            input.focus();
+            input.onblur = function(){
+                //parentElement
+                var td = input.parentElement;
+                var orgText = input.parentElement.getAttribute('data-text')
+                var curText = this.value;
+            }
+            this.innerHTML = '';
+            this.append(input);
+            this.firstElementChild.select();
+        }
+        //send PUT Request to update API
+        document.getElementById("saveBtn").onclick(
+            fetch("http://localhost:8088/api/courses/" + id,{
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    courseName: courseName,
+                    courseNum: courseNum,
+                    dept: dept,
+                    instructor: instructor,
+                    startDate: startDate,
+                    numDays: numDays
+                })
+            })
+            .catch(function
+                (error){
+                    //Redirect to PageNotFound
+                    window.location.href = "./PageNotFound.html";
+                })
+        )
+    }
+    //change URL dynamically
+    //change method to PUT
+}   
+)
 </script>
 </html>

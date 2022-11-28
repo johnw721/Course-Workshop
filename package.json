@@ -1,0 +1,20 @@
+{
+  "name": "courses2-api-express-server",
+  "version": "1.0.0",
+  "description": "package.son for server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnw721/Course-Workshop.git"
+  },
+  "author": "Jarel Wright",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnw721/Course-Workshop/issues"
+  },
+  "homepage": "https://github.com/johnw721/Course-Workshop#readme"
+}

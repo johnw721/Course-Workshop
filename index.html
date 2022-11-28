@@ -35,10 +35,10 @@ fetch("http://localhost:8888/courses",{})
         let Department = Departments.filter(
             (item, index) => Departments.indexOf(item) === index
             );
-    console.log(Department)
     //Creating inner HTML for the Department
     Department.forEach(element => {
         var department = document.createElement("div");
+        department.className = "department"
         department.innerHTML = `
         <h3>${element}</h3>
         <button id="seeCourses">
@@ -51,6 +51,11 @@ fetch("http://localhost:8888/courses",{})
     });
     ;
 
+})
+.catch(error => {
+    //redirect to PageNotFound.html
+    window.location.href = "./PageNotFound.html";
+    console.log(error);
 })
 </script>
 </html>
